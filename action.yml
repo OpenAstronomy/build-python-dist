@@ -36,24 +36,25 @@ runs:
     shell: bash
     run: python -m build --sdist .
 
-  - name: Installing source distribution
+  - name: Test source distribution
     shell: bash
-    run: python -m pip install --force-reinstall `find dist -name "*.tar.gz"`[${{ inputs.test_extras }}]
-    if: ${{ inputs.test_extras != '' }}
-
-  - name: Installing source distribution
-    shell: bash
-    run: python -m pip install --force-reinstall `find dist -name "*.tar.gz"`
-    if: ${{ inputs.test_extras == '' }}
+    run: |
+      python -m venv test-sdist
+      test-sdist/bin/activate
+      python -m pip install --force-reinstall `find dist -name "*.tar.gz"`[${{ inputs.test_extras }}]
+      cd ${{ runner.temp }}
+      ${{ inputs.test_command }}
+    if: ${{ inputs.test_command != '' && inputs.test_extras != '' }}
 
   - name: Test source distribution
     shell: bash
-    run: ${{ inputs.test_command }}
-    working-directory: ${{ runner.temp }}
-    if: ${{ inputs.test_command != '' }}
-
-  # TODO: use virtual environments to make sure we are really testing the wheel and not the previously
-  # installed source distribution
+    run: |
+      python -m venv test-sdist
+      test-sdist/bin/activate
+      python -m pip install --force-reinstall `find dist -name "*.tar.gz"`
+      cd ${{ runner.temp }}
+      ${{ inputs.test_command }}
+    if: ${{ inputs.test_command != '' && inputs.test_extras == '' }}
 
   - name: Build pure Python wheel distribution
     shell: bash
@@ -62,18 +63,22 @@ runs:
 
   # TODO: check that the resulting wheel is indeed pure Python
 
-  - name: Installing pure Python wheel distribution
+  - name: Test pure Python wheel distribution
     shell: bash
-    run: python -m pip install --force-reinstall `find dist -name "*.whl"`[${{ inputs.test_extras }}]
-    if: ${{ inputs.pure_python_wheel && inputs.test_extras != '' }}
-
-  - name: Installing pure Python wheel distribution
-    shell: bash
-    run: python -m pip install --force-reinstall `find dist -name "*.whl"`
-    if: ${{ inputs.pure_python_wheel && inputs.test_extras == '' }}
+    run: |
+      python -m venv test-wheel
+      test-wheel/bin/activate
+      python -m pip install --force-reinstall `find dist -name "*.whl"`[${{ inputs.test_extras }}]
+      cd ${{ runner.temp }}
+      ${{ inputs.test_command }}
+    if: ${{ inputs.pure_python_wheel && inputs.test_command != '' && inputs.test_extras != '' }}
 
   - name: Test pure Python wheel distribution
     shell: bash
-    run: ${{ inputs.test_command }}
-    working-directory: ${{ runner.temp }}
-    if: ${{ inputs.pure_python_wheel && inputs.test_command != '' }}
+    run: |
+      python -m venv test-wheel
+      test-wheel/bin/activate
+      python -m pip install --force-reinstall `find dist -name "*.whl"`
+      cd ${{ runner.temp }}
+      ${{ inputs.test_command }}
+    if: ${{ inputs.pure_python_wheel && inputs.test_command != '' && inputs.test_extras == '' }}

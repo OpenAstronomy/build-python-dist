@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: build
-        uses: OpenAstronomy/build-python-dist@main
+        uses: ./
         with:
           pure_python_wheel: true
           test_extras: test

@@ -1,4 +1,4 @@
-## action-build-sdist-and-wheel
+## build-python-dist
 
 [![.github/workflows/main.yml](https://github.com/OpenAstronomy/action-build-sdist-and-wheel/actions/workflows/main.yml/badge.svg)](https://github.com/OpenAstronomy/action-build-sdist-and-wheel/actions/workflows/main.yml)
 

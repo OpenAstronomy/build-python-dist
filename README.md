@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: build
-        uses: OpenAstronomy/build-python-dist@main
+        uses: OpenAstronomy/build-python-dist@v1
 ```
 
 ### Build a source distribution with testing
@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: build
-        uses: OpenAstronomy/build-python-dist@main
+        uses: OpenAstronomy/build-python-dist@v1
         with:
           test_extras: test
           test_command: pytest --pyargs test_package
@@ -48,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: build
-        uses: OpenAstronomy/build-python-dist@main
+        uses: OpenAstronomy/build-python-dist@v1
         with:
           pure_python_wheel: true
           test_extras: test
@@ -56,6 +56,10 @@ jobs:
 ```
 
 ## Notes
+
+If you want to use the latest available version of this action instead
+of hard-coding a specific version, you can replace
+``OpenAstronomy/build-python-dist@v1`` by ``OpenAstronomy/build-python-dist@main``.
 
 To build wheels for packages with extensions, you should instead use
 [cibuildwheel](https://github.com/pypa/cibuildwheel) which includes

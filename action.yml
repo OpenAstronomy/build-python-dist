@@ -1,0 +1,76 @@
+name: 'Release Python package'
+description: 'Build wheels and sdist and upload to PyPI'
+inputs:
+  test_extras:
+    description: Any extras_requires modifier that should be used to install the package for testing
+    required: false
+    default: ''
+  test_command:
+    description: The command to run to test the package (will be run in a temporary directory)
+    required: false
+    default: ''
+  pure_python_wheel:
+    description: Whether to build a pure Python wheel in addition to the source distribution
+    required: false
+    default: false
+runs:
+  using: "composite"
+  steps:
+
+  - uses: actions/checkout@v2
+    with:
+      fetch-depth: 0
+
+  - uses: actions/setup-python@v2
+    with:
+      python-version: 3.8
+
+  - name: Install python-build and twine
+    shell: bash
+    run: python -m pip install pip build twine --upgrade
+
+  - name: Build source distribution
+    shell: bash
+    run: python -m build --sdist .
+
+  - name: Installing source distribution
+    shell: bash
+    run: python -m pip install --force-reinstall `find dist -name "*.tar.gz"`[${{ inputs.test_extras }}]
+    if: ${{ inputs.test_extras != '' }}
+
+  - name: Installing source distribution
+    shell: bash
+    run: python -m pip install --force-reinstall `find dist -name "*.tar.gz"`
+    if: ${{ inputs.test_extras == '' }}
+
+  - name: Test source distribution
+    shell: bash
+    run: ${{ inputs.test_command }}
+    working-directory: ${{ runner.temp }}
+    if: ${{ inputs.test_command != '' }}
+
+  # TODO: use virtual environments to make sure we are really testing the wheel and not the previously
+  # installed source distribution
+
+  - name: Build pure Python wheel distribution
+    shell: bash
+    run: python -m build --wheel .
+    if: ${{ inputs.pure_python_wheel }}
+
+  # TODO: check that the resulting wheel is indeed pure Python
+
+  - name: Installing pure Python wheel distribution
+    shell: bash
+    run: python -m pip install --force-reinstall `find dist -name "*.whl"`[${{ inputs.test_extras }}]
+    if: ${{ inputs.pure_python_wheel && inputs.test_extras != '' }}
+
+  - name: Installing pure Python wheel distribution
+    shell: bash
+    run: python -m pip install --force-reinstall `find dist -name "*.whl"`
+    if: ${{ inputs.pure_python_wheel && inputs.test_extras == '' }}
+
+  - name: Test pure Python wheel distribution
+    shell: bash
+    run: ${{ inputs.test_command }}
+    working-directory: ${{ runner.temp }}
+    if: ${{ inputs.pure_python_wheel && inputs.test_command != '' }}

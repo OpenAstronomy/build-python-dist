@@ -2,8 +2,12 @@
 
 [![.github/workflows/main.yml](https://github.com/OpenAstronomy/build-python-dist/actions/workflows/test_action.yml/badge.svg)](https://github.com/OpenAstronomy/build-python-dist/actions/workflows/test_action.yml)
 
-An experimental GitHub action to build and test source distributions for
-Python packages, and optionally a wheel for pure Python packages.
+A GitHub action to build and test a source distribution for
+a Python package, and optionally a wheel for pure Python packages.
+
+To build wheels for packages with extensions, you should instead use
+[cibuildwheel](https://github.com/pypa/cibuildwheel) which also includes
+a GitHub action for convenience.
 
 ## Examples
 
@@ -60,7 +64,3 @@ jobs:
 If you want to use the latest available version of this action instead
 of hard-coding a specific version, you can replace
 ``OpenAstronomy/build-python-dist@v1`` by ``OpenAstronomy/build-python-dist@main``.
-
-To build wheels for packages with extensions, you should instead use
-[cibuildwheel](https://github.com/pypa/cibuildwheel) which includes
-a GitHub action for convenience.

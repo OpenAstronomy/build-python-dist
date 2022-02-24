@@ -26,7 +26,7 @@ runs:
 
   - uses: actions/setup-python@v2
     with:
-      python-version: 3.8
+      python-version: 3.x
 
   - name: Install python-build and twine
     shell: bash
@@ -41,6 +41,7 @@ runs:
     run: |
       python -m venv test-sdist
       test-sdist/bin/activate
+      which python
       python -m pip install --force-reinstall `find dist -name "*.tar.gz"`[${{ inputs.test_extras }}]
       cd ${{ runner.temp }}
       ${{ inputs.test_command }}
@@ -51,6 +52,7 @@ runs:
     run: |
       python -m venv test-sdist
       test-sdist/bin/activate
+      which python
       python -m pip install --force-reinstall `find dist -name "*.tar.gz"`
       cd ${{ runner.temp }}
       ${{ inputs.test_command }}
@@ -68,6 +70,7 @@ runs:
     run: |
       python -m venv test-wheel
       test-wheel/bin/activate
+      which python
       python -m pip install --force-reinstall `find dist -name "*.whl"`[${{ inputs.test_extras }}]
       cd ${{ runner.temp }}
       ${{ inputs.test_command }}
@@ -78,6 +81,7 @@ runs:
     run: |
       python -m venv test-wheel
       test-wheel/bin/activate
+      which python
       python -m pip install --force-reinstall `find dist -name "*.whl"`
       cd ${{ runner.temp }}
       ${{ inputs.test_command }}

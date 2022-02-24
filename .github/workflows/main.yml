@@ -1,0 +1,15 @@
+on: [push]
+
+jobs:
+  build_wheels:
+    name: Do release
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - id: build
+        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+        with:
+          pure_python_wheel: true
+          test_extras: test
+          test_command: pytest --pyargs test_package

@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: build
-        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+        uses: OpenAstronomy/build-python-dist@main
 ```
 
 ### Build a source distribution with testing
@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: build
-        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+        uses: OpenAstronomy/build-python-dist@main
         with:
           test_extras: test
           test_command: pytest --pyargs test_package
@@ -48,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: build
-        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+        uses: OpenAstronomy/build-python-dist@main
         with:
           pure_python_wheel: true
           test_extras: test

@@ -1,6 +1,8 @@
 # This workflow is used to test the action
 
-on: [push]
+on:
+  push:
+  pull_request:
 
 jobs:
   build_wheels:

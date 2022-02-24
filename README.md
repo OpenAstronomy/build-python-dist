@@ -1,6 +1,6 @@
 ## build-python-dist
 
-[![.github/workflows/main.yml](https://github.com/OpenAstronomy/action-build-sdist-and-wheel/actions/workflows/main.yml/badge.svg)](https://github.com/OpenAstronomy/action-build-sdist-and-wheel/actions/workflows/main.yml)
+[![.github/workflows/main.yml](https://github.com/OpenAstronomy/build-python-dist/actions/workflows/test_action.yml/badge.svg)](https://github.com/OpenAstronomy/build-python-dist/actions/workflows/test_action.yml)
 
 An experimental GitHub action to build and test source distributions for
 Python packages, and optionally a wheel for pure Python packages.

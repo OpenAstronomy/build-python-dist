@@ -1,5 +1,7 @@
-name: 'Release Python package'
-description: 'Build wheels and sdist and upload to PyPI'
+name: 'Build Python Source and Wheel Distributions'
+description: 'Build source distribution for any Python package and wheels for Python packages without extensions.'
+icon: package
+color: blue
 inputs:
   test_extras:
     description: Any extras_requires modifier that should be used to install the package for testing

@@ -62,7 +62,7 @@ runs:
   - name: Build pure Python wheel distribution
     shell: bash
     run: python -m build --wheel .
-    if: ${{ inputs.pure_python_wheel }}
+    if: ${{ inputs.pure_python_wheel == 'true' }}
 
   # TODO: check that the resulting wheel is indeed pure Python
 
@@ -75,7 +75,7 @@ runs:
       python -m pip install --force-reinstall `find dist -name "*.whl"`[${{ inputs.test_extras }}]
       cd ${{ runner.temp }}
       ${{ inputs.test_command }}
-    if: ${{ inputs.pure_python_wheel && inputs.test_command != '' && inputs.test_extras != '' }}
+    if: ${{ inputs.pure_python_wheel == 'true' && inputs.test_command != '' && inputs.test_extras != '' }}
 
   - name: Test pure Python wheel distribution
     shell: bash
@@ -86,4 +86,4 @@ runs:
       python -m pip install --force-reinstall `find dist -name "*.whl"`
       cd ${{ runner.temp }}
       ${{ inputs.test_command }}
-    if: ${{ inputs.pure_python_wheel && inputs.test_command != '' && inputs.test_extras == '' }}
+    if: ${{ inputs.pure_python_wheel == 'true' && inputs.test_command != '' && inputs.test_extras == '' }}

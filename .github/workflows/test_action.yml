@@ -17,3 +17,9 @@ jobs:
           pure_python_wheel: true
           test_extras: test
           test_command: pytest --pyargs test_package
+      - id: build_not_pure
+        uses: ./
+        with:
+          pure_python_wheel: "false"
+          test_extras: test
+          test_command: pytest --pyargs test_package

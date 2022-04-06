@@ -5,8 +5,8 @@ on:
   pull_request:
 
 jobs:
-  build_wheels:
-    name: Test build-python-dist action
+  build_pure:
+    name: Test action (pure wheel)
     runs-on: ubuntu-20.04
 
     steps:
@@ -15,5 +15,17 @@ jobs:
         uses: ./
         with:
           pure_python_wheel: true
+          test_extras: test
+          test_command: pytest --pyargs test_package
+  build_non_pure:
+    name: Test action (not pure wheel)
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - id: build_not_pure
+        uses: ./
+        with:
+          pure_python_wheel: "false"
           test_extras: test
           test_command: pytest --pyargs test_package

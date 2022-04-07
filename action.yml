@@ -43,7 +43,7 @@ runs:
     shell: bash
     run: |
       python -m venv test-sdist
-      test-sdist/bin/activate
+      source test-sdist/bin/activate
       which python
       python -m pip install --force-reinstall `find dist -name "*.tar.gz"`[${{ inputs.test_extras }}]
       cd ${{ runner.temp }}
@@ -54,7 +54,7 @@ runs:
     shell: bash
     run: |
       python -m venv test-sdist
-      test-sdist/bin/activate
+      source test-sdist/bin/activate
       which python
       python -m pip install --force-reinstall `find dist -name "*.tar.gz"`
       cd ${{ runner.temp }}
@@ -72,7 +72,7 @@ runs:
     shell: bash
     run: |
       python -m venv test-wheel
-      test-wheel/bin/activate
+      source test-wheel/bin/activate
       which python
       python -m pip install --force-reinstall `find dist -name "*.whl"`[${{ inputs.test_extras }}]
       cd ${{ runner.temp }}
@@ -83,7 +83,7 @@ runs:
     shell: bash
     run: |
       python -m venv test-wheel
-      test-wheel/bin/activate
+      source test-wheel/bin/activate
       which python
       python -m pip install --force-reinstall `find dist -name "*.whl"`
       cd ${{ runner.temp }}

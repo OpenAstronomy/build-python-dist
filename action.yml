@@ -66,7 +66,16 @@ runs:
     run: python -m build --wheel .
     if: ${{ inputs.pure_python_wheel == 'true' }}
 
-  # TODO: check that the resulting wheel is indeed pure Python
+  - name: Verify that one pure Python wheel was built
+    shell: bash
+    run: |
+      ls -1 dist/*
+      if [ $(ls -1 dist/*.whl 2>/dev/null | wc -l) != 1 ] ||
+         [ $(ls -1 dist/*none-any.whl 2>/dev/null | wc -l) != 1 ]; then
+        echo "::error ::Build failed because package is not pure Python."
+        exit 1
+      fi
+    if: ${{ inputs.pure_python_wheel == 'true' }}
 
   - name: Test pure Python wheel distribution
     shell: bash

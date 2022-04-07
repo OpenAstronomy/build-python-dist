@@ -59,6 +59,25 @@ jobs:
           test_command: pytest --pyargs test_package
 ```
 
+## Custom Python version
+
+By default, the [`actions/setup-python`](https://github.com/actions/setup-python) action will install the latest Python 3 version for building and testing, however, the `OpenAstronomy/build-python-dist` action accepts a `python-version` string input to select a specific version,
+
+```yaml
+jobs:
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: build
+        uses: OpenAstronomy/build-python-dist@v1
+        with:
+          test_extras: test
+          test_command: pytest --pyargs test_package
+          python-version: '3.9'
+```
+
 ## Notes
 
 If you want to use the latest available version of this action instead

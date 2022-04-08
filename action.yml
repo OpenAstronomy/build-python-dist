@@ -19,6 +19,11 @@ inputs:
     required: false
     default: false
     type: string
+  python-version:
+    description: The Python version to use for building and testing
+    required: false
+    default: '3.x'
+    type: string
 runs:
   using: "composite"
   steps:
@@ -29,7 +34,7 @@ runs:
 
   - uses: actions/setup-python@v2
     with:
-      python-version: 3.x
+      python-version: ${{ inputs.python-version }}
 
   - name: Install python-build and twine
     shell: bash

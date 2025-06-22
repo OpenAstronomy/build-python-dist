@@ -7,7 +7,7 @@ on:
 jobs:
   build_pure:
     name: Test action (pure wheel)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
           test_command: pytest --pyargs test_package
   build_non_pure:
     name: Test action (not pure wheel)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4

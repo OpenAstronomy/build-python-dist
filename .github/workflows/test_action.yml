@@ -15,7 +15,8 @@ jobs:
         uses: ./
         with:
           pure_python_wheel: true
-          test_extras: test
+          test_groups: test, concurrency
+          test_extras: recommended
           test_command: pytest --pyargs test_package
   build_non_pure:
     name: Test action (not pure wheel)
@@ -27,5 +28,6 @@ jobs:
         uses: ./
         with:
           pure_python_wheel: "false"
-          test_extras: test
+          test_groups: test
+          test_extras: recommended
           test_command: pytest --pyargs test_package

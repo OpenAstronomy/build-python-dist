@@ -36,11 +36,19 @@ jobs:
       - id: build
         uses: OpenAstronomy/build-python-dist@v1
         with:
-          test_extras: test
+          test_groups: test
+          test_extras: recommended
           test_command: pytest --pyargs test_package
 ```
 
-The ``test_extras`` option, if specified, should contain a string (e.g. ``test`` or ``test,all``) that will be used to determine which 'extras' should be installed when testing. The ``test_command`` option should contain the full command to use for testing the installed package (this is run from an empty temporary directory).
+The ``test_groups`` option, if specified, should contain a comma-separated list
+of [PEP 735 Dependency Groups](https://peps.python.org/pep-0735/) that should be
+installed when testing (e.g. ``test``, or ``test, concurrency`` ...).
+Similarily, the ``test_extras`` option specifies optional dependencies
+(e.g. ``recommended`` or ``recommended, plotting``) that will be used to determine
+which 'extras' should be installed when testing. The ``test_command`` option
+should contain the full command to use for testing the installed package (this
+is run from an empty temporary directory).
 
 ### Build a source distribution and wheel for a pure-Python package
 
@@ -55,7 +63,8 @@ jobs:
         uses: OpenAstronomy/build-python-dist@v1
         with:
           pure_python_wheel: true
-          test_extras: test
+          test_groups: test
+          test_extras: recommended
           test_command: pytest --pyargs test_package
 ```
 
@@ -73,7 +82,8 @@ jobs:
       - id: build
         uses: OpenAstronomy/build-python-dist@v1
         with:
-          test_extras: test
+          test_groups: test
+          test_extras: recommended
           test_command: pytest --pyargs test_package
           python-version: '3.9'
 ```

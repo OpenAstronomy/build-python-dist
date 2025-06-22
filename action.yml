@@ -4,6 +4,11 @@ branding:
   icon: package
   color: blue
 inputs:
+  test_groups:
+    description: Comma-separated PEP 735 dependency groups that should be installed for testing
+    required: false
+    default: ''
+    type: string
   test_extras:
     description: Any extras_requires modifier that should be used to install the package for testing
     required: false
@@ -44,13 +49,22 @@ runs:
     shell: bash
     run: python -m build --sdist .
 
-  - name: Test source distribution
+  - name: Create and activate a virtual environment
     shell: bash
     run: |
       python -m venv test-sdist
       source test-sdist/bin/activate
       which python
-      python -m pip install --force-reinstall `find dist -name "*.tar.gz"`[${{ inputs.test_extras }}]
+
+  - name: Parse dependency groups
+    shell: bash
+    run: |
+      echo "group_flags=$( python -c "print(' '.join(f'--group {g.strip()}' for g in '${{ inputs.test_groups }}'.split(',')))" ) " >> "$GITHUB_ENV"
+
+  - name: Test source distribution
+    shell: bash
+    run: |
+      python -m pip install --force-reinstall `find dist -name "*.tar.gz"`[${{ inputs.test_extras }}] $group_flags
       cd ${{ runner.temp }}
       ${{ inputs.test_command }}
     if: ${{ inputs.test_command != '' && inputs.test_extras != '' }}
@@ -58,10 +72,7 @@ runs:
   - name: Test source distribution
     shell: bash
     run: |
-      python -m venv test-sdist
-      source test-sdist/bin/activate
-      which python
-      python -m pip install --force-reinstall `find dist -name "*.tar.gz"`
+      python -m pip install --force-reinstall `find dist -name "*.tar.gz"` $group_flags
       cd ${{ runner.temp }}
       ${{ inputs.test_command }}
     if: ${{ inputs.test_command != '' && inputs.test_extras == '' }}

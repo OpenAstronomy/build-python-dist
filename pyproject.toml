@@ -1,4 +1,31 @@
 [build-system]
-requires = ["setuptools>=43.0.0",
-            "wheel"]
-build-backend = 'setuptools.build_meta'
+requires = ["setuptools>=61.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "test-package"
+dynamic = ["version"]
+
+[project.optional-dependencies]
+recommended = [
+    # use small, pure-Python, extremely popular packages
+    "boto3",
+    "urllib3",
+]
+
+[dependency-groups]
+concurrency = [
+    {include-group = "test"},
+    "pytest-repeat",
+    "pytest-run-parallel",
+]
+test = [
+    "hypothesis>=6.135.14",
+    "pytest>=8.4.1",
+]
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages]
+find = {namespaces = false}

@@ -7,7 +7,7 @@ on:
 jobs:
   build_pure:
     name: Test action (pure wheel)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -15,11 +15,12 @@ jobs:
         uses: ./
         with:
           pure_python_wheel: true
-          test_extras: test
+          test_groups: test, concurrency
+          test_extras: recommended
           test_command: pytest --pyargs test_package
   build_non_pure:
     name: Test action (not pure wheel)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -27,5 +28,6 @@ jobs:
         uses: ./
         with:
           pure_python_wheel: "false"
-          test_extras: test
+          test_groups: test
+          test_extras: recommended
           test_command: pytest --pyargs test_package

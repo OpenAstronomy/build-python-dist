@@ -31,3 +31,16 @@ jobs:
           test_groups: test
           test_extras: recommended
           test_command: pytest --pyargs test_package
+
+  build_no_groups:
+    name: Test action (default, no groups)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - id: build
+        uses: ./
+        with:
+          pure_python_wheel: true
+          test_extras: recommended
+          test_command: python -c 'import test_package'

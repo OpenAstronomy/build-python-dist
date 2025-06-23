@@ -60,6 +60,7 @@ runs:
     shell: bash
     run: |
       echo "group_flags=$( python -c "print(' '.join(f'--group {g.strip()}' for g in '${{ inputs.test_groups }}'.split(',')))" ) " >> "$GITHUB_ENV"
+    if: ${{ inputs.test_groups != '' }}
 
   - name: Test source distribution
     shell: bash

@@ -44,3 +44,17 @@ jobs:
           pure_python_wheel: true
           test_extras: recommended
           test_command: python -c 'import test_package'
+
+  custom_build_directory:
+    name: Test action (source-directory)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - id: build
+        uses: ./
+        with:
+          source-directory: packages/subpackage
+          pure_python_wheel: true
+          test_extras: test
+          test_command: pytest --pyargs subpackage

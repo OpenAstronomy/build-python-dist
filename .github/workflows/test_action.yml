@@ -45,8 +45,8 @@ jobs:
           test_extras: recommended
           test_command: python -c 'import test_package'
 
-  custom_build_directory:
-    name: Test action (source-directory)
+  custom_source_directory:
+    name: Test action (custom source-directory)
     runs-on: ubuntu-latest
 
     steps:

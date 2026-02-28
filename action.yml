@@ -29,6 +29,11 @@ inputs:
     required: false
     default: '3.x'
     type: string
+  source-directory:
+    description: The directory containing the package to build, relative to the repository root
+    required: false
+    default: '.'
+    type: string
 runs:
   using: "composite"
   steps:
@@ -47,7 +52,7 @@ runs:
 
   - name: Build source distribution
     shell: bash
-    run: python -m build --sdist .
+    run: python -m build --sdist --outdir dist ${{ inputs.source-directory }}
 
   - name: Create and activate a virtual environment
     shell: bash
@@ -80,7 +85,7 @@ runs:
 
   - name: Build pure Python wheel distribution
     shell: bash
-    run: python -m build --wheel .
+    run: python -m build --wheel --outdir dist ${{ inputs.source-directory }}
     if: ${{ inputs.pure_python_wheel == 'true' }}
 
   - name: Verify that one pure Python wheel was built

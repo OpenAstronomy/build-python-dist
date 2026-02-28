@@ -68,6 +68,26 @@ jobs:
           test_command: pytest --pyargs test_package
 ```
 
+## Custom source directory
+
+By default, the action builds from the repository root. If your package is in a
+subdirectory (e.g., in a monorepo or non-standard project layout), use the
+`source-directory` input:
+
+```yaml
+jobs:
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: build
+        uses: OpenAstronomy/build-python-dist@v1
+        with:
+          source-directory: packages/my-package
+          test_command: pytest --pyargs my_package
+```
+
 ## Custom Python version
 
 By default, the [`actions/setup-python`](https://github.com/actions/setup-python) action will install the latest Python 3 version for building and testing, however, the `OpenAstronomy/build-python-dist` action accepts a `python-version` string input to select a specific version,
